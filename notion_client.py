@@ -1,5 +1,6 @@
 import json
 import requests
+import sys
 
 
 def create_page(notion_header, research_papers_page_id, document):
@@ -46,3 +47,21 @@ def create_page(notion_header, research_papers_page_id, document):
     )
 
     return result
+
+
+def query_bibcodes(notion_header, research_papers_page_id):
+    result = requests.post(
+        "https://api.notion.com/v1/databases/" + research_papers_page_id + "/query",
+        headers=notion_header
+    )
+
+    bibcodes = []
+
+    if result.status_code == 200:
+        text_response = result.text.replace('[', '').replace(']', '')
+        json_response = json.loads(text_response)
+        print(json_response)
+    else:
+        sys.exit('ERROR: Notion query failed')
+
+    return bibcodes

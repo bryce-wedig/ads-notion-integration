@@ -42,7 +42,7 @@ if not library_last_modified > last_successful_runtime:
 bibcodes = ads_client.get_library(ads_token, unfiled_library['id'], unfiled_library['num_documents'])
 
 # get all bibcodes already in Notion
-# todo notion query for list of bibcodes
+# notion_client.query_bibcodes(notion_header, research_papers_page_id)
 
 # get deltas
 # todo get deltas
