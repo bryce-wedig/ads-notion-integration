@@ -37,7 +37,7 @@ def get_library(token, library_id, num_documents):
 
     documents = []
     for i in range(num_paginates):
-        print('Pagination {} out of {}'.format(i+1, num_paginates))
+        # print('Pagination {} out of {}'.format(i+1, num_paginates))
 
         r = requests.get(
             '{}/libraries/{id}?start={start}&rows={rows}'.format(

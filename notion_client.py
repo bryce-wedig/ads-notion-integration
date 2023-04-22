@@ -58,9 +58,11 @@ def query_bibcodes(notion_header, research_papers_page_id):
     bibcodes = []
 
     if result.status_code == 200:
-        text_response = result.text.replace('[', '').replace(']', '')
-        json_response = json.loads(text_response)
-        print(json_response)
+        json_response = json.loads(result.text)
+        pages = json_response["results"]
+
+        for page in pages:
+            bibcodes.append(page["properties"]["Bibcode"]["rich_text"][0]["plain_text"])
     else:
         sys.exit('ERROR: Notion query failed')
 
