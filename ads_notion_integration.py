@@ -6,7 +6,7 @@ import sys
 
 
 # read json file and put values into variables
-json = utils.read_json('constants_ads_notion_integration.json')
+json = utils.read_json('/home/ubuntu/scripts/ads-notion-integration/constants_ads_notion_integration.json')
 ads_token = json['ads_token']
 research_papers_page_id = json['research_papers_page_id']
 notion_api_token = json['notion_api_token']
@@ -88,7 +88,7 @@ for bibcode in bibcodes_to_add:
         print("\t" + "Success: " + document["bibcode"])
 
 # log result in Notion
-if failure_count > 0:
+if failure_count == 0:
     post_status_to_notion(notion_header, integration_page_id, True)
 else:
     post_status_to_notion(notion_header, integration_page_id, False)
