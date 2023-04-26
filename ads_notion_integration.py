@@ -5,6 +5,9 @@ from bw_integration_utils import *
 import sys
 
 
+# last_successful_runtime.txt filepath
+textfile = '/home/ubuntu/scripts/ads-notion-integration/last_successful_runtime.txt'
+
 # read json file and put values into variables
 json = utils.read_json('/home/ubuntu/scripts/ads-notion-integration/constants_ads_notion_integration.json')
 ads_token = json['ads_token']
@@ -20,7 +23,7 @@ if not is_active_in_notion(notion_header, integration_page_id):
     sys.exit('Integration is not active. Exiting...')
 
 # read last successful runtime
-last_successful_runtime = utils.read_last_successful_runtime()
+last_successful_runtime = utils.read_last_successful_runtime(textfile)
 
 # collect libraries
 libraries = ads_client.get_libraries(ads_token)
@@ -33,7 +36,7 @@ for library in libraries:
         break
 if unfiled_library is None:
     post_status_to_notion(notion_header, integration_page_id, True)
-    utils.write_last_successful_runtime()
+    utils.write_last_successful_runtime(textfile)
     sys.exit('ERROR: Unfiled library not found')
 
 # TODO fix this
@@ -58,7 +61,7 @@ for bibcode in bibcodes:
 
 if len(bibcodes_to_add) == 0:
     post_status_to_notion(notion_header, integration_page_id, True)
-    utils.write_last_successful_runtime()
+    utils.write_last_successful_runtime(textfile)
     sys.exit("No deltas")
 
 print("Identified " + str(len(bibcodes_to_add)) + " document(s) to add")
@@ -93,4 +96,4 @@ if failure_count == 0:
 else:
     post_status_to_notion(notion_header, integration_page_id, False)
 
-utils.write_last_successful_runtime()
+utils.write_last_successful_runtime(textfile)
