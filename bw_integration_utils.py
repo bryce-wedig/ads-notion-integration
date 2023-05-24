@@ -1,6 +1,7 @@
-import requests  # to make API calls
-import json  # create JSON objects
 import datetime
+import json  # create JSON objects
+
+import requests  # to make API calls
 
 
 def get_notion_header(notion_api_token, notion_api_version):

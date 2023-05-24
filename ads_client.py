@@ -1,6 +1,7 @@
 import math
-import requests
 from urllib.parse import urlencode
+
+import requests
 
 
 def get_config(token):

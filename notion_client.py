@@ -1,6 +1,7 @@
 import json
-import requests
 import sys
+
+import requests
 
 
 def create_page(notion_header, research_papers_page_id, document):
