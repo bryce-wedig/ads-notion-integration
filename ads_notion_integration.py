@@ -1,17 +1,22 @@
+import sys
+
 import ads_client
 import notion_client
 import utils
 from bw_integration_utils import *
-import sys
 
-# last_successful_runtime.txt filepath
-textfile = '/home/ubuntu/scripts/ads-notion-integration/last_successful_runtime.txt'
-# textfile = 'last_successful_runtime.txt'  # for IDE execution
+# set to true for IDE execution
+local_execution = False
 
-# read json file and put values into variables
-json = utils.read_json('/home/ubuntu/scripts/ads-notion-integration/constants_ads_notion_integration.json')
-# json = utils.read_json('constants_ads_notion_integration.json')  # for IDE execution
+if local_execution:
+    textfile = 'last_successful_runtime.txt'
+    json = utils.read_json('constants_ads_notion_integration.json')
+else:
+    textfile = '/home/ubuntu/scripts/ads-notion-integration/last_successful_runtime.txt'
+    json = utils.read_json('/home/ubuntu/scripts/ads-notion-integration/constants_ads_notion_integration.json')
+
 ads_token = json['ads_token']
+ads_library_name = json['ads_library_name']
 research_papers_page_id = json['research_papers_page_id']
 notion_api_token = json['notion_api_token']
 notion_api_version = json['notion_api_version']
@@ -31,27 +36,26 @@ try:
     # collect libraries
     libraries = ads_client.get_libraries(ads_token)
 
-    # check if Unfiled library exists
-    unfiled_library = None
+    # check if the ADS library exists
+    ads_library = None
     for library in libraries:
-        if library['name'] == 'Unfiled':
-            unfiled_library = library
+        if library['name'] == ads_library_name:
+            ads_library = library
             break
-    if unfiled_library is None:
+    if ads_library is None:
         post_status_to_notion(notion_header, integration_page_id, True)
         utils.write_last_successful_runtime(textfile)
-        sys.exit('ERROR: Unfiled library not found')
+        sys.exit('ERROR: ADS library \'' + ads_library_name + '\' not found')
 
-    # TODO fix this
-    # check if Unfiled library has been modified since code last ran - if not, then exit
-    # library_last_modified = datetime.datetime.fromisoformat(unfiled_library['date_last_modified'])
-    # if last_successful_runtime > library_last_modified:
-    #     post_status_to_notion(notion_header, integration_page_id, True)
-    #     utils.write_last_successful_runtime()
-    #     sys.exit('No changes since last successful runtime')
+    # check if ADS library has been modified since code last ran - if not, then exit
+    library_last_modified = datetime.datetime.fromisoformat(ads_library['date_last_modified'])
+    if last_successful_runtime > library_last_modified:
+        post_status_to_notion(notion_header, integration_page_id, True)
+        utils.write_last_successful_runtime(textfile)
+        sys.exit('No changes since last successful runtime')
 
     # go get bibcodes for all documents in Unfiled
-    bibcodes = ads_client.get_library(ads_token, unfiled_library['id'], unfiled_library['num_documents'])
+    bibcodes = ads_client.get_library(ads_token, ads_library['id'], ads_library['num_documents'])
 
     # get all bibcodes already in Notion
     existing_bibcodes = notion_client.query_bibcodes(notion_header, research_papers_page_id)
