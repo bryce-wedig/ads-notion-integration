@@ -31,7 +31,6 @@ notion_header = get_notion_header(notion_api_token, notion_api_version)
 try:
     # check if integration is active in Notion
     if not is_active_in_notion(notion_header, integration_page_id):
-        post_status_to_notion(notion_header, integration_page_id, True)
         sys.exit('Integration is not active. Exiting...')
 
     # read last successful runtime
