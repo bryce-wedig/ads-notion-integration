@@ -1,12 +1,16 @@
+'''
+Parts are adapted from https://github.com/adsabs/ads-examples/blob/master/library_csv/lib_2_csv.py
+'''
+
 import sys
 
 import ads_client
 import notion_client
 import utils
-from bw_integration_utils import *
+from notion_helper import *
 
 # set to true for IDE execution
-local_execution = False
+local_execution = True
 
 if local_execution:
     textfile = 'last_successful_runtime.txt'

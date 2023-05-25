@@ -1,7 +1,7 @@
 import datetime
-import json  # create JSON objects
+import json
 
-import requests  # to make API calls
+import requests
 
 
 def get_notion_header(notion_api_token, notion_api_version):
@@ -37,8 +37,6 @@ def post_status_to_notion(notion_header, integration_page_id, is_success):
         data=json.dumps({
             "properties": {
                 "Status": {
-                    "id": "_F=k",
-                    "type": "rich_text",
                     "rich_text": [
                         {
                             "type": "text",

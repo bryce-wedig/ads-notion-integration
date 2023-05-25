@@ -1,3 +1,7 @@
+'''
+Adapted from https://github.com/adsabs/ads-examples/blob/master/library_csv/lib_2_csv.py
+'''
+
 import math
 from urllib.parse import urlencode
 
