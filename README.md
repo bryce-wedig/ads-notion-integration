@@ -30,5 +30,9 @@ Queries ADS for papers saved in a particular library and creates corresponding d
 where Notion page IDs can be retrieved from their URLs
 
 - Update `is_active_in_notion()` method of `notion_helper.py` with the appropriate property item id which can be retrieved from the [retrieve a page endpoint](https://developers.notion.com/reference/retrieve-a-page)
+- Schedule the script with `cron`: for every hour,
+```
+0 * * * * /usr/bin/python3 /home/ubuntu/scripts/ads-notion-integration/ads_notion_integration.py >> cron.log 2>&1
+```
 
 Parts of this code, where indicated, are adapted from [adsabs/ads-examples](https://github.com/adsabs/ads-examples/blob/master/library_csv/lib_2_csv.py)
