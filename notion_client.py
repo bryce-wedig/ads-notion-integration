@@ -63,7 +63,13 @@ def query_bibcodes(notion_header, research_papers_page_id):
         pages = json_response["results"]
 
         for page in pages:
-            bibcodes.append(page["properties"]["Bibcode"]["rich_text"][0]["plain_text"])
+            bibcode_list = page["properties"]["Bibcode"]["rich_text"]
+
+            if len(bibcode_list) != 0:
+                bibcodes.append(bibcode_list[0]["plain_text"])
+            else:
+                page_title = page["properties"]["Name"]["title"][0]["plain_text"]
+                raise Exception('Page ' + page_title + ' is missing a Bibcode')
     else:
         sys.exit('ERROR: Notion query failed')
 
