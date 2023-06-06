@@ -3,6 +3,7 @@ Parts are adapted from https://github.com/adsabs/ads-examples/blob/master/librar
 '''
 
 import sys
+import traceback
 
 import ads_client
 import notion_client
@@ -10,7 +11,7 @@ import utils
 from notion_helper import *
 
 # set to true for IDE execution
-local_execution = True
+local_execution = False
 
 if local_execution:
     textfile = 'last_successful_runtime.txt'
@@ -111,6 +112,6 @@ try:
         post_status_to_notion(notion_header, integration_page_id, False)
 
     utils.write_last_successful_runtime(textfile)
-except Exception as e:
-    print(e)
+except Exception:
+    traceback.print_exc()
     post_status_to_notion(notion_header, integration_page_id, False)
