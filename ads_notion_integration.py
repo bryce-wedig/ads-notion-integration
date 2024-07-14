@@ -17,8 +17,8 @@ if local_execution:
     textfile = 'last_successful_runtime.txt'
     json = utils.read_json('constants_ads_notion_integration.json')
 else:
-    textfile = '/home/ubuntu/scripts/ads-notion-integration/last_successful_runtime.txt'
-    json = utils.read_json('/home/ubuntu/scripts/ads-notion-integration/constants_ads_notion_integration.json')
+    textfile = '/home/ubuntu/ads-notion-integration/last_successful_runtime.txt'
+    json = utils.read_json('/home/ubuntu/ads-notion-integration/constants_ads_notion_integration.json')
 
 ads_token = json['ads_token']
 ads_library_name = json['ads_library_name']
